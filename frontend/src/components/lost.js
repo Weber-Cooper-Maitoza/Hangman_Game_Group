@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 // A traditional hangman game is shown with slots indicating the number of letters. 
@@ -23,35 +23,42 @@ import { useNavigate } from "react-router";
 // scores table as previously described.
 
 export default function UserName() {
-
   const navigate = useNavigate();
+  const [word, setWord] = useState({
+    word: "",
+    // wordlength: ""
+  });
 
-  async function giveUp(e) {
-    e.preventDefault();
-    const response = await fetch(`http://localhost:5001/getWord`);
-    if (!response.ok) {
-      const message = `An error occurred: ${response.statusText}`;
-      window.alert(message);
-      return;
+  useEffect(() => {
+    async function run() {
+      const response = await fetch("http://localhost:5001/session_get_word",
+        {
+          method: "GET",
+          credentials: 'include'
+        }
+      );
+      const wordOBJ = await response.json();
+      setWord(wordOBJ);
+      
     }
-    const responseWord = await response.json();
-    await fetch(`http://localhost:5001/session_set_word/${responseWord["_id"]}/${responseWord["wordlength"]}`,
-      {
-        method: "GET",
-        credentials: 'include'
-      }
-    );
-    
-    navigate("/lost");
+    run();
+    return;
+  }, []);
+
+  async function highScores(e) {
+    e.preventDefault();
+    navigate("/scores");
+    return;
   }
 
   return(
     <div>
-      <p><span style={{color: "red"}}>TODO:</span> make hangman.</p>
-        <form onSubmit={giveUp}>
+      <h1>You Lost &#128532;</h1>
+      <h3>Your Word Was: {word.word}</h3>
+        <form onSubmit={highScores}>
             <input
               type="submit"
-              value="give up"
+              value="High Scores"
             />
         </form>
     </div>

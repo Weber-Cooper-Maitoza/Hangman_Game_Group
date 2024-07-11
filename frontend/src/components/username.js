@@ -8,8 +8,9 @@ export default function UserName() {
   const navigate = useNavigate();
 
   async function onSubmit(e) {
+    setUsername("");
     e.preventDefault();
-    const response = await fetch(`http://localhost:5001/session_set/${username}`,
+    const response = await fetch(`http://localhost:5001/session_set_username/${username}`,
       {
         method: "GET",
         credentials: 'include'
