@@ -11,7 +11,7 @@ session{
 
 routes
 
-1) post route that takes req.body.username and sets up a session grabs a word from database, sets up correctWord and word
+1) route that takes req._.username and sets up a session grabs a word from database, sets up correctWord and word
 returns success status 200
 
 2) a route that returns word, and lettersGuessed
