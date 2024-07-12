@@ -35,7 +35,7 @@ export default function UserName() {
       return;
     }
     const responseWord = await response.json();
-    await fetch(`http://localhost:5001/session_set_word/${responseWord["_id"]}/${responseWord["wordlength"]}`,
+    await fetch(``,
       {
         method: "GET",
         credentials: 'include'

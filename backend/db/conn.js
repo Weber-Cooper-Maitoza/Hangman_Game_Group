@@ -49,7 +49,7 @@ async function loadWords() {
 	const file = await open("./db/anagram_dictionary.txt");
 
 	for await (const line of file.readLines()) {
-		if (line.length > 5 && line.length < 10) {
+		if (line.length > 5 && line.length < 14) {
 			let myobj = {
 				_id: line,
 				wordlength: line.length,

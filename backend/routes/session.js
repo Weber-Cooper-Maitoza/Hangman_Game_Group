@@ -10,15 +10,6 @@ routes.route("/session_set_username/:username").get(async (req, res) => {
   }
 })
 
-routes.route("/session_set_word/:word/:wordlength").get(async (req, res) => {
-  try {
-    req.session.word = req.params.word;
-    req.session.wordlength = req.params.wordlength;
-    res.json();
-  } catch(err) {
-    throw err;
-  }
-})
 
 routes.route("/session_get_word").get(async (req, res) => {
   try {

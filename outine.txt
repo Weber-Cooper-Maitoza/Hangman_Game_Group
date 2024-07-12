@@ -1,0 +1,74 @@
+###Backend 
+
+
+session{
+	username: the username
+	correctWord: the correct word
+	lengthOfWord: length //optional could also get length of correctWord
+	word = [*...*] // *, * with the amount of letters 5 letters = [*,*,*,*,*] (I need a better name probably)
+	lettersGuessed = []
+}
+
+routes
+
+1) post route that takes req.body.username and sets up a session grabs a word from database, sets up correctWord and word
+returns success status 200
+
+2) a route that returns word, and lettersGuessed
+
+3) any type (I like post) that takes a letter:
+  - checks if it is in lettersGuessed returns    res.status(301).json("Already Guessed letter") can also be a separate json and error code. - If it isn't it fills in any spots in word that are the letter and adds the guess to lettersGuessed. 
+  - if word has no * it pushes the details to the scores database 
+  - returns word, lettersGuessed, and boolean if in word
+  {
+	word: [*...*]
+	lettersGuessed: []
+	inWord: boolean
+  }
+
+
+4) looks at the session to see the length of correctWord and returns the an array of the top 10. this can be done using mongo sorting the database by lengthOfWord and limiting to 10
+
+
+5) deletes the session 
+
+
+6) optional for testing a route that takes a length and returns the top 10 of that length
+
+7) optional a route that returns the correctWord
+
+###Frontend 
+
+3 pages
+
+1) startup username creation form
+ - on submit sends to route 1
+ - on status 200 navigate to game
+
+2) the game 
+ -  on startup (could use useEffect) that gets route 2 
+ - form that on submit sends a letter to route 3
+ - looks at return from route 3 and responds accordingly updating page
+
+3) high scores 
+ - useEffect route 4 
+ - takes the array of route 4 and for each over and displays
+ - button that deletes session and sends you back to startup
+
+
+
+
+
+##Examples
+
+user sends in letter 'e'
+looks at correctWord = however
+fills in slots to word [*,*,*,e,*,e,r]
+adds to lettersGuessed = [e]
+returns word, lettersGuessed, inWord= true
+
+user sends in 'b'
+looks at correctWord = however
+not in 
+adds to lettersGuessed = [e, b]
+returns word, lettersGuessed, inWord = false
