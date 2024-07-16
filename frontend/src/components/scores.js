@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import './scores.css'
+import "./scores.css";
 
 // Upon fully guessing the word, that name is then stored into a scores table.
 // Then a top 10 high scores table is displayed for all successful games with
@@ -19,7 +19,7 @@ import './scores.css'
 // guesses (either total or missed guesses), and report the best top 10 results.
 
 export default function Scores() {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const [scoreList, setScoreList] = useState([
 		{
@@ -30,83 +30,77 @@ export default function Scores() {
 	]);
 
 	const [gameDetails, setGameDetails] = useState({
-    word: [],
-    lettersGuessed: [],
-  });
+		word: [],
+		lettersGuessed: [],
+	});
 
 	useEffect(() => {
-    async function loadDetails(){
-      console.log("hello")
-      const response = await fetch(`http://localhost:5001/game`,
-        {
-          method: "POST",
-          credentials: 'include',
-          headers: {
+		async function loadDetails() {
+			console.log("hello");
+			const response = await fetch(`http://localhost:5001/game`, {
+				method: "POST",
+				credentials: "include",
+				headers: {
 					"Content-Type": "application/json",
 				},
-        }
-      );
-      if (response.status === 301) {
+			});
+			if (response.status === 301) {
 				navigate("/");
 				return;
 			} else if (!response.ok) {
 				const messge = `An error occured: ${response.statusText}`;
 				window.alert(messge);
 				return;
-      }
-      const data = await response.json()
-      
-      setGameDetails(data)
+			}
+			const data = await response.json();
 
-      const respon2 = await fetch(`http://localhost:5001/scores`,
-        {
-          method: "POST",
-          credentials: 'include',
-          headers: {
+			setGameDetails(data);
+
+			const respon2 = await fetch(`http://localhost:5001/scores`, {
+				method: "POST",
+				credentials: "include",
+				headers: {
 					"Content-Type": "application/json",
 				},
-        }
-      );
-      if (respon2.status === 301) {
-        window.alert(await respon2.json())
+			});
+			if (respon2.status === 301) {
+				window.alert(await respon2.json());
 				return;
 			} else if (!respon2.ok) {
 				const message = `An error occured: ${respon2.statusText}`;
 				window.alert(message);
 				return;
-      }
-      const scores = await respon2.json()
-      setScoreList(scores)
-
-
-
-    }
-    loadDetails()
-  }, [navigate]);
+			}
+			const scores = await respon2.json();
+			setScoreList(scores);
+		}
+		loadDetails();
+	}, [navigate]);
 
 	return (
 		<div>
 			<p>Good Job! Your Word Was: {gameDetails.word || ""}</p>
-      <p>You got it in {gameDetails.lettersGuessed.length || ""} guesses</p>
-      <button onClick={() => navigate("/")}>New Game</button>
+			<p>
+				You got it in {gameDetails.lettersGuessed.length || ""} guesses
+			</p>
+			<button onClick={() => navigate("/")}>New Game</button>
 			<h2>High Scores for length: {scoreList[0].wordlength}</h2>
 			<table>
-      <thead>
-				<tr>
-					<th>UserName</th>
-					<th>Number of Guesses</th>
-				</tr>
-        </thead>
-        <tbody>
-				{scoreList.map((score, idx) => (
-					<Score score={score} idx={idx} />
-				))}
-        </tbody>
+				<thead>
+					<tr>
+						<th>UserName</th>
+						<th>Number of Guesses</th>
+					</tr>
+				</thead>
+				<tbody>
+					{scoreList.map((score, idx) => (
+						<Score score={score} idx={idx} />
+					))}
+				</tbody>
 			</table>
 		</div>
 	);
 }
-
 
 function Score({ score, idx }) {
 	return (

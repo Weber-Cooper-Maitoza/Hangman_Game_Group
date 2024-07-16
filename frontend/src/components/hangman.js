@@ -56,15 +56,15 @@ export default function Hangman() {
 				return;
 			}
 			let x = await response.json();
+      //x.lettersGuessed.sort()
 			setWord(x);
 		}
 		loadBoardGame();
 	}, [navigate]);
 
 	useEffect(() => {
-
 		if (!word.word.includes("*") && word.word.length !== 0) {
-      console.log("broken")
+			console.log("broken");
 			navigate("/scores");
 		}
 	}, [navigate, word.word]);
@@ -89,25 +89,26 @@ export default function Hangman() {
 	async function guessLetter(e) {
 		e.preventDefault();
 		const guess = guessingLetter.letter.toLowerCase();
-    if(guess === ""){
-      return
-    }
+		if (guess === "") {
+			return;
+		}
 
-    const response = await fetch("http://localhost:5001/guess", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body:JSON.stringify({guess: guess})
-    });
-    if(response.status === 301){
-      window.alert(await response.json())
-      return
-    }
-    let x = await response.json();
-    setWord(x);
-    setGuessingLetter({letter: ""})
+		const response = await fetch("http://localhost:5001/guess", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ guess: guess }),
+		});
+		if (response.status === 301) {
+			window.alert(await response.json());
+			return;
+		}
+		let x = await response.json();
+    //x.lettersGuessed.sort()
+		setWord(x);
+		setGuessingLetter({ letter: "" });
 	}
 
 	function setCharacter(e) {
@@ -133,9 +134,7 @@ export default function Hangman() {
 				{word.lettersGuessed.map((letter, idx) => (
 					<span key={idx}>
 						{letter.toUpperCase()}
-						{idx === word.lettersGuessed.length - 1
-							? ""
-							: ", "}{" "}
+						{idx === word.lettersGuessed.length - 1? "": ", "}
 					</span>
 				))}
 			</div>
@@ -163,7 +162,6 @@ export default function Hangman() {
 }
 
 function Letter({ letter, index }) {
-
 	const spanStyle = {
 		fontSize: "large",
 		borderBottom: "2px solid black",
