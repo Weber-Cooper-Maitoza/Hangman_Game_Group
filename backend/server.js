@@ -6,6 +6,8 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
 require("dotenv").config({ path: "./config.env"});
+const port = process.env.PORT;
+
 
 app.use(cors(
   {
@@ -37,7 +39,11 @@ app.use(require("./routes/session.js"));
 app.use(require("./routes/test_routes.js"));
 
 
-const port = process.env.PORT;
+
+
+app.get("/", (req, res) => {
+	res.send("Hello World");
+});
 
 app.listen(port, () => {
 	dbo.connectToServer(function (err) {

@@ -8,14 +8,24 @@ export default function UserName() {
   const navigate = useNavigate();
 
   async function onSubmit(e) {
-    setUsername("");
     e.preventDefault();
-    const response = await fetch(`http://localhost:5001/session_set_username/${username}`,
+    const x ={
+      username: username
+    }
+    console.log(x)
+    const response = await fetch(`http://localhost:5001/start`,
       {
-        method: "GET",
-        credentials: 'include'
+        method: "POST",
+        credentials: 'include',
+        headers: {
+				"Content-Type": "application/json",
+			},
+        body: JSON.stringify(x),
       }
     );
+    if(response.status === 301){
+      window.alert(await response.json())
+    }
     if (!response.ok) {
       const messge = `An error occured: ${response.statusText}`;
       window.alert(messge);

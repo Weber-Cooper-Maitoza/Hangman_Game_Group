@@ -9,21 +9,22 @@ const ObjectId = require("mongodb").ObjectId;
 // sets up correctWord and word, returns success status 200
 scoresRoutes.route("/start").post(async (req,res) => {
   try{
-      const username = req.body;
+      const username = req.body.username;
       if(!username){
         return res.status(301).json("Username is required to play!")
       }
       req.session.username = username;
       let db_connect = dbo.getDb().collection("words");
       const word = await db_connect.aggregate([{ $sample: { size: 1 } }]).toArray();
-      console.log(word[0]);
+      const data = word[0]
+      console.log(data);
 
       if (!word){
         return res.status(301).json("No word was found")
       }
 
-      req.session.correctWord = word;
-      req.session.word = Array(correctWord.length).fill("*");
+      req.session.correctWord = data._id;
+      req.session.word = Array(data.wordlength).fill("*");
       req.session.lettersGuessed = [];
 
       res.status(200).json("Game has been started");

@@ -38,25 +38,31 @@ export default function Hangman() {
 
 	useEffect(() => {
 		async function loadBoardGame() {
-			// const response = await fetch(
-			// 	"http://localhost:4000/account_details",
-			// 	{
-			// 		method: "POST",
-			// 		credentials: "include",
-			// 	}
-			// );
-			// if (response.status === 301) {
-			// 	navigate("/Username");
-			// 	return;
-			// }
-
-      setWord({
-        word: ['h','h','*', '*', '*', '*', '*', '*'],
-        lettersGuessed: ['h', 'i', 'j']
-      })
-
+      //console.log("start")
+			const response = await fetch(
+				"http://localhost:5001/game",
+				{
+					method: "POST",
+					credentials: "include",
+          headers: {
+				"Content-Type": "application/json",
+			},
+				}
+			);
+      //console.log(response)
+			if (response.status === 301) {
+        window.alert(await response.json())
+				navigate("/Username");
+				return;
+			}
+      else if (!response.ok) {
+        const messge = `An error occured: ${response.statusText}`;
+        window.alert(messge);
+        return;
+      }
+      let x = await response.json()
+      setWord(x)
       
-
 		}
 		loadBoardGame();
 	}, [navigate]);
@@ -121,15 +127,15 @@ export default function Hangman() {
       <p><span style={{color: "red"}}>TODO:</span> make hangman.</p>
       <div className="hangman-word">
         {
-          word.word.map((letter) => (
-            <Letter letter={letter}/>
+          word.word.map((letter, idx) => (
+            <Letter letter={letter} index = {idx}/>
           ))  
         }
       </div>
       <div>
         <h3>Letters Guessed:</h3>
         {word.lettersGuessed.map((letter, idx) => (
-          <span>{letter.toUpperCase()}{idx === word.lettersGuessed.length-1 ? "": ", "} </span>
+          <span key = {idx}>{letter.toUpperCase()}{idx === word.lettersGuessed.length-1 ? "": ", "} </span>
         ))
         }
 
@@ -148,6 +154,7 @@ export default function Hangman() {
             <input
               type="submit"
               value="give up"
+              id="giveUp"
             />
         </form>
         
@@ -156,21 +163,21 @@ export default function Hangman() {
 }
 
 
-function Letter({letter}){
-  if(letter === '*'){
-    return <span style={{
-      	fontSize: "large",
-        borderBottom: "2px solid black",
-        width: '1.5em',
-        margin: "0 0.2em"
-    }}> </span>
-  }
-  return <span style={{
+function Letter({letter, index}){
+  const spanStyle = {
     fontSize: "large",
     borderBottom: "2px solid black",
     width: '1.5em',
     margin: "0 0.2em",
-    textAlign: 'center'
-  }}>{letter.toUpperCase()}</span>
+    display: 'inline-block',
+    verticalAlign: 'bottom',
+    height: '1em', // Ensuring both have the same height
+    lineHeight: '1em' // Ensuring the line height matches the height
+};
+
+  if(letter === '*'){
+    return <span key = {index} style={spanStyle}> </span>
+  }
+  return <span key = {index}  style={{ ...spanStyle, textAlign: 'center' }}>{letter.toUpperCase()}</span>
 
 }
