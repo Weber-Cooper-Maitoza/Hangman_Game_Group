@@ -100,7 +100,8 @@ scoresRoutes.post('/scores', async (req, res) => {
   const wordLength = req.session.correctWord.length;
 
   try {
-      const topScores = await scoresCollection.find({ wordLength: wordLength })
+    const scoresCollection = dbo.getDb("hangman").collection("scores")
+      const topScores = await scoresCollection.find({ wordlength: wordLength })
           .sort({ numOfGuesses: 1 }) 
           .limit(10)
           .toArray();

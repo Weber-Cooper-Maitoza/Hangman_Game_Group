@@ -21,7 +21,7 @@ import './scores.css'
 export default function Scores() {
   const navigate = useNavigate();
 
-	const [scoreList, SetScoreList] = useState([
+	const [scoreList, setScoreList] = useState([
 		{
 			username: "",
 			numofguesses: "",
@@ -29,7 +29,10 @@ export default function Scores() {
 		},
 	]);
 
-	const [correctWord, setCorrectWord] = useState();
+	const [gameDetails, setGameDetails] = useState({
+    word: [],
+    lettersGuessed: [],
+  });
 
 	useEffect(() => {
     async function loadDetails(){
@@ -53,7 +56,7 @@ export default function Scores() {
       }
       const data = await response.json()
       
-      setCorrectWord(data.word)
+      setGameDetails(data)
 
       const respon2 = await fetch(`http://localhost:5001/scores`,
         {
@@ -72,16 +75,19 @@ export default function Scores() {
 				window.alert(message);
 				return;
       }
+      const scores = await respon2.json()
+      setScoreList(scores)
 
 
 
     }
     loadDetails()
-  }, []);
+  }, [navigate]);
 
 	return (
 		<div>
-			<p>Good Job! Your Word Was: {correctWord}</p>
+			<p>Good Job! Your Word Was: {gameDetails.word || ""}</p>
+      <p>You got it in {gameDetails.lettersGuessed.length || ""} guesses</p>
       <button onClick={() => navigate("/")}>New Game</button>
 			<h2>High Scores for length: {scoreList[0].wordlength}</h2>
 			<table>
