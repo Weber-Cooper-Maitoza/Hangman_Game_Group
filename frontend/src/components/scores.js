@@ -32,26 +32,52 @@ export default function Scores() {
 	const [correctWord, setCorrectWord] = useState();
 
 	useEffect(() => {
+    async function loadDetails(){
+      console.log("hello")
+      const response = await fetch(`http://localhost:5001/game`,
+        {
+          method: "POST",
+          credentials: 'include',
+          headers: {
+					"Content-Type": "application/json",
+				},
+        }
+      );
+      if (response.status === 301) {
+				navigate("/");
+				return;
+			} else if (!response.ok) {
+				const messge = `An error occured: ${response.statusText}`;
+				window.alert(messge);
+				return;
+      }
+      const data = await response.json()
+      
+      setCorrectWord(data.word)
 
-    SetScoreList(
-      [
+      const respon2 = await fetch(`http://localhost:5001/scores`,
         {
-          username: "Billy Bob joe",
-          numofguesses: "9",
-          wordlength: 12,
-        },
-        {
-          username: "Billy Bob joe",
-          numofguesses: "9",
-          wordlength: 12,
-        },        {
-          username: "Billy Bob joe",
-          numofguesses: "9",
-          wordlength: 12,
-        },
-      ]
-    )
-  });
+          method: "POST",
+          credentials: 'include',
+          headers: {
+					"Content-Type": "application/json",
+				},
+        }
+      );
+      if (respon2.status === 301) {
+        window.alert(await respon2.json())
+				return;
+			} else if (!respon2.ok) {
+				const message = `An error occured: ${respon2.statusText}`;
+				window.alert(message);
+				return;
+      }
+
+
+
+    }
+    loadDetails()
+  }, []);
 
 	return (
 		<div>
@@ -59,13 +85,17 @@ export default function Scores() {
       <button onClick={() => navigate("/")}>New Game</button>
 			<h2>High Scores for length: {scoreList[0].wordlength}</h2>
 			<table>
+      <thead>
 				<tr>
 					<th>UserName</th>
 					<th>Number of Guesses</th>
 				</tr>
+        </thead>
+        <tbody>
 				{scoreList.map((score, idx) => (
 					<Score score={score} idx={idx} />
 				))}
+        </tbody>
 			</table>
 		</div>
 	);

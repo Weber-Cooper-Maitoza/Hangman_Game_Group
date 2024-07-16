@@ -52,9 +52,9 @@ scoresRoutes.route("/guess").post(async (req, res) => {
   if(!req.session.username){
     return res.status(301).json("Username has not been set")
   }
-  const guess = req.body;
+  const guess = req.body.guess;
   if (req.session.lettersGuessed.includes(guess)){
-    return res.status(200).json("Letter has already been guess, try again");
+    return res.status(301).json("Letter has already been guess, try again");
   }
   let inWord = false;
 
@@ -78,21 +78,23 @@ scoresRoutes.route("/guess").post(async (req, res) => {
       wordlength: length
     };
     db_connect.collection("scores").insertOne(myobj);
-    return res.status(200).json("Game over! Word has been guessed!")
+    //return res.status(200).json("Game over! Word has been guessed!")
   }
 
   res.status(200).json({
     word: req.session.word,
     lettersGuessed: req.session.lettersGuessed,
-    inword: inword
+    inword: inWord
   })
 })
 
 //4. checks the session for length of correct word
 //returns an array of top then with that length
-scoresRoutes.get('/scores', async (req, res) => {
+scoresRoutes.post('/scores', async (req, res) => {
+  console.log("Scores!!")
+
   if (!req.session.username) {
-      return res.status(301).json("Username has not been set");
+      return res.status(301).json("Username has not been set!");
   }
 
   const wordLength = req.session.correctWord.length;

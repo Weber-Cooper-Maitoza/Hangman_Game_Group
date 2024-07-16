@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 
@@ -6,6 +6,21 @@ export default function UserName() {
   const [username, setUsername] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    async function reset(){
+      console.log("Reset")
+      const response = await fetch(`http://localhost:5001/endGame`,
+        {
+          method: "GET",
+          credentials: 'include',
+          
+        }
+      );
+    }
+   
+    reset()
+  }, [])
 
   async function onSubmit(e) {
     e.preventDefault();
