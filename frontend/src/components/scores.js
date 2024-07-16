@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 // Upon fully guessing the word, that name is then stored into a scores table. 
@@ -19,6 +19,8 @@ import { useNavigate } from "react-router";
 
 export default function Scores() {
   const [scoreList, SetScoreList] = useState([]);
+
+
 
   return(
     <div>
