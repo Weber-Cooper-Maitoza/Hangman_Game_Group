@@ -10,7 +10,6 @@ routes.route("/session_set_username/:username").get(async (req, res) => {
   }
 })
 
-
 routes.route("/session_get_word").get(async (req, res) => {
   try {
     const resultObj = { word: req.session.word };
