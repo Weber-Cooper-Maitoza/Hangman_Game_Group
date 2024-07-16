@@ -1,0 +1,21 @@
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 20px 0;
+}
+  
+  /* Style for table headers */
+  th, td {
+	padding: 12px 15px;
+	text-align: left;
+  }
+  
+  /* Style for table header */
+  th {
+	text-transform: uppercase;
+  }
+  
+  /* Style for table rows */
+  tr {
+	border-bottom: 1px solid #dddddd;
+  }
