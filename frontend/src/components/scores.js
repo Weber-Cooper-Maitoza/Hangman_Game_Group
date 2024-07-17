@@ -63,6 +63,7 @@ export default function Scores() {
 					"Content-Type": "application/json",
 				},
 			});
+			// FIXME: Wont be triggered since there is already a check for "/game" route
 			if (respon2.status === 301) {
 				window.alert(await respon2.json());
 				return;
@@ -72,7 +73,9 @@ export default function Scores() {
 				return;
 			}
 			const scores = await respon2.json();
-			setScoreList(scores.sort((a,b) => { return a.numofguesses > b.numofguesses }));
+			// FIXME: IDK if this is what we want but it sorts it correctly.
+			// setScoreList(scores.sort((a,b) => { return a.numofguesses > b.numofguesses }));
+			setScoreList(scores.sort());
 		}
 		loadDetails();
 	}, [navigate]);
