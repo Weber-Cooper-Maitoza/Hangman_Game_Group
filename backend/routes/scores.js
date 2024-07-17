@@ -103,9 +103,11 @@ scoresRoutes.post("/scores", async (req, res) => {
 	try {
 		const scoresCollection = dbo.getDb("hangman").collection("scores");
 		const topScores = await scoresCollection
-			.find({ wordlength: wordLength })
-			.sort({ numOfGuesses: 1 })
-			.limit(10)
+			.aggregate([
+				{ $match: { wordlength: wordLength } },
+				{ $sort: { numofguesses: 1 } },
+				{ $limit: 10 },
+			])
 			.toArray();
 
 		res.status(200).json(topScores);
@@ -122,5 +124,26 @@ scoresRoutes.route("/endGame").get(async (req, res) => {
 	res.json(resultObj);
 });
 
+//6. test route
+scoresRoutes.post("/high_scores", async (req, res) => {
+	console.log("Scores!!");
+
+	const wordLength = +req.body.length;
+
+	try {
+		const scoresCollection = dbo.getDb("hangman").collection("scores");
+		const topScores = await scoresCollection
+			.aggregate([
+				{ $match: { wordlength: wordLength } },
+				{ $sort: { numofguesses: 1 } },
+				{ $limit: 10 },
+			])
+			.toArray();
+
+		res.status(200).json(topScores);
+	} catch (err) {
+		res.status(301).json("Error getting the top scores " + err);
+	}
+});
 
 module.exports = scoresRoutes;
