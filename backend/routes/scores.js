@@ -66,12 +66,16 @@ scoresRoutes.route("/guess").post(async (req, res) => {
 			inWord = true;
 		}
 	}
-	req.session.lettersGuessed.push(guess);
+	req.session.numberOfGuesses+=1
+
+	if(!inWord){
+		req.session.lettersGuessed.push(guess);
+	}
 
 	//check if whole word has been guessed
 	if (!req.session.word.includes("*")) {
 		let db_connect = dbo.getDb("hangman");
-		const num = req.session.lettersGuessed.length;
+		const num = req.session.numberOfGuesses;
 		const length = req.session.correctWord.length;
 		let myobj = {
 			username: req.session.username,

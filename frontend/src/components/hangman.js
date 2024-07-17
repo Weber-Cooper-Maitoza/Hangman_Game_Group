@@ -110,7 +110,7 @@ export default function Hangman() {
 				))}
 			</div>
 			<div>
-				<h3>Letters Guessed:</h3>
+				<h3>Incorrect Letters Guessed:</h3>
 				{word.lettersGuessed.map((letter, idx) => (
 					<span key={idx}>
 						{letter.toUpperCase()}

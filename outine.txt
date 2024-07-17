@@ -9,6 +9,7 @@ session{
 	correctWord: the correct word
 	lengthOfWord: length //optional could also get length of correctWord
 	word = [*...*] // *, * with the amount of letters 5 letters = [*,*,*,*,*] (I need a better name probably)
+	numberOfGuesses: the number of guesses
 	lettersGuessed = []
 }
 
