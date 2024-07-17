@@ -122,23 +122,5 @@ scoresRoutes.route("/endGame").get(async (req, res) => {
 	res.json(resultObj);
 });
 
-// FIXME: Might not need this because we can use sessions to do this.
-scoresRoutes.route("/username/add").post(async (req, res) => {
-	try {
-		c;
-	} catch (err) {
-		throw err;
-	}
-});
-
-scoresRoutes.route("/getscores").get(async (req, res) => {
-	try {
-		let db_connect = dbo.getDb("hangman");
-		const result = await db_connect.collection("scores").find().toArray();
-		res.json(result);
-	} catch (err) {
-		throw err;
-	}
-});
 
 module.exports = scoresRoutes;

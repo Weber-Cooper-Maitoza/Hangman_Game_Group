@@ -69,23 +69,6 @@ export default function Hangman() {
 		}
 	}, [navigate, word.word]);
 
-	async function giveUp(e) {
-		e.preventDefault();
-		const response = await fetch(`http://localhost:5001/getWord`);
-		if (!response.ok) {
-			const message = `An error occurred: ${response.statusText}`;
-			window.alert(message);
-			return;
-		}
-		const responseWord = await response.json();
-		await fetch(``, {
-			method: "GET",
-			credentials: "include",
-		});
-
-		navigate("/lost");
-	}
-
 	async function guessLetter(e) {
 		e.preventDefault();
 		const guess = guessingLetter.letter.toLowerCase();
@@ -148,11 +131,6 @@ export default function Hangman() {
 				/>
 				<br />
 				<input type="submit" value="Guess Letter" />
-			</form>
-
-			<br />
-			<form onSubmit={giveUp}>
-				<input type="submit" value="give up" id="giveUp" />
 			</form>
 		</div>
 	);
