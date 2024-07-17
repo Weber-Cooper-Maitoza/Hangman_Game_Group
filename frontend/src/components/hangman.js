@@ -25,12 +25,8 @@ import { useNavigate } from "react-router";
 export default function Hangman() {
 	const [word, setWord] = useState({
 		word: [],
-		lettersGuessed: [],
-		movesLeft: 11
+		lettersGuessed: []
 	});
-	// FIXME: remove?
-	const [inWord, setInWord] = useState();
-
 	const [moves, setMoves] = useState(11);
 	const [winStatus, setWinStatus] = useState("");
 
