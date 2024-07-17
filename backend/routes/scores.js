@@ -81,6 +81,7 @@ scoresRoutes.route("/guess").post(async (req, res) => {
 			username: req.session.username,
 			numofguesses: num,
 			wordlength: length,
+			inword: inWord
 		};
 		db_connect.collection("scores").insertOne(myobj);
 		//return res.status(200).json("Game over! Word has been guessed!")
@@ -90,6 +91,7 @@ scoresRoutes.route("/guess").post(async (req, res) => {
 		word: req.session.word,
 		lettersGuessed: req.session.lettersGuessed,
 		inword: inWord,
+		numofguesses: req.session.numberOfGuesses
 	});
 });
 

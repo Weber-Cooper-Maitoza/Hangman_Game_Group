@@ -28,6 +28,7 @@ export default function Hangman() {
 		lettersGuessed: [],
 	});
 	const [inWord, setInWord] = useState();
+	const [moves, setMoves] = useState(11);
 
 	const [guessingLetter, setGuessingLetter] = useState({
 		letter: "",
@@ -90,6 +91,9 @@ export default function Hangman() {
 		}
 		let x = await response.json();
     //x.lettersGuessed.sort()
+		if (!x.inword) {
+			setMoves(moves - 1);
+		}
 		setWord(x);
 		setGuessingLetter({ letter: "" });
 	}
@@ -131,6 +135,7 @@ export default function Hangman() {
 				/>
 				<br />
 				<input type="submit" value="Guess Letter" />
+				<p>Moves left: {moves}/11</p>
 			</form>
 		</div>
 	);
