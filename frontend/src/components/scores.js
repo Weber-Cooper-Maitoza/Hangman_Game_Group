@@ -33,6 +33,7 @@ export default function Scores() {
 		word: "",
 		lettersGuessed: [],
 		movesLeft: 0,
+		numberOfGuesses: 0
 	});
 
 	useEffect(() => {
@@ -113,7 +114,7 @@ function Score({ score, idx }) {
 }
 
 function WordDetails({ gameDetails }) {
-	console.log(gameDetails.movesLeft)
+
 	if (gameDetails.movesLeft < 1) {
 		return (
 			<>
@@ -127,7 +128,7 @@ function WordDetails({ gameDetails }) {
 		<>
 			<p>Good Job! Your Word Was: {gameDetails.word || ""}</p>
 			<p>
-				You got it in {gameDetails.lettersGuessed.length || ""} guesses
+				You got it in {gameDetails.numberOfGuesses || ""} guesses
 			</p>
 		</>
 	);

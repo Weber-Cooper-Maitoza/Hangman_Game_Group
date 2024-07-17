@@ -54,7 +54,8 @@ scoresRoutes.route("/gameDetails").post(async (req, res) => {
 	res.status(200).json({
 		word: req.session.correctWord,
 		lettersGuessed: req.session.lettersGuessed,
-		movesLeft: req.session.movesLeft
+		movesLeft: req.session.movesLeft,
+		numberOfGuesses: req.session.numberOfGuesses,
 	});
 });
 
