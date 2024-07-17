@@ -26,6 +26,7 @@ export default function Hangman() {
 	const [word, setWord] = useState({
 		word: [],
 		lettersGuessed: [],
+		movesLeft: 11
 	});
 	// FIXME: remove?
 	const [inWord, setInWord] = useState();
@@ -62,6 +63,7 @@ export default function Hangman() {
 			let x = await response.json();
       //x.lettersGuessed.sort()
 			setWord(x);
+			setMoves(x.movesLeft);
 		}
 		loadBoardGame();
 	}, [navigate]);
@@ -93,9 +95,10 @@ export default function Hangman() {
 			return;
 		}
 		let x = await response.json();
-    //x.lettersGuessed.sort()
-		if (!x.inword) {
-			setMoves(moves - 1);
+		setMoves(x.movesLeft);
+		if (x.movesLeft < 1) {
+			setWinStatus("You Lost! ");
+			// navigate("/scores");
 		}
 		setWord(x);
 		setGuessingLetter({ letter: "" });

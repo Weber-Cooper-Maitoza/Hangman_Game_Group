@@ -27,6 +27,7 @@ scoresRoutes.route("/start").post(async (req, res) => {
 		req.session.correctWord = data._id;
 		req.session.word = Array(data.wordlength).fill("*");
 		req.session.lettersGuessed = [];
+		req.session.movesLeft = 11;
 
 		res.status(200).json("Game has been started");
 	} catch (err) {
@@ -42,6 +43,7 @@ scoresRoutes.route("/game").post(async (req, res) => {
 	res.status(200).json({
 		word: req.session.word,
 		lettersGuessed: req.session.lettersGuessed,
+		movesLeft: req.session.movesLeft
 	});
 });
 
@@ -70,6 +72,7 @@ scoresRoutes.route("/guess").post(async (req, res) => {
 
 	if(!inWord){
 		req.session.lettersGuessed.push(guess);
+		req.session.movesLeft -= 1;
 	}
 
 	//check if whole word has been guessed
@@ -91,7 +94,7 @@ scoresRoutes.route("/guess").post(async (req, res) => {
 		word: req.session.word,
 		lettersGuessed: req.session.lettersGuessed,
 		inword: inWord,
-		numofguesses: req.session.numberOfGuesses
+		movesLeft: req.session.movesLeft
 	});
 });
 
