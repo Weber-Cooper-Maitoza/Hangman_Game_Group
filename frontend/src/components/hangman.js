@@ -121,9 +121,6 @@ export default function Hangman() {
 
 	return (
 		<div>
-			<p>
-				<span style={{ color: "red" }}>TODO:</span> make hangman.
-			</p>
 			<div className="hangman-word">
 				{word.word.map((letter, idx) => (
 					<Letter letter={letter} index={idx} />

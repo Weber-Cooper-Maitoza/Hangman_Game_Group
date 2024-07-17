@@ -49,11 +49,12 @@ export default function UserName() {
 					<input
 						type="text"
 						id="username"
+            autoComplete="off"
 						onChange={(e) => setUsername(e.target.value)}
 					/>
 				</div>
 				<div>
-					<input type="submit" value="Play Game" />
+					<input type="submit" value="Play Game"/>
 				</div>
 			</form>
 		</div>
