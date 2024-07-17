@@ -113,7 +113,8 @@ function Score({ score, idx }) {
 }
 
 function WordDetails({ gameDetails }) {
-	if (gameDetails.movesLeft || gameDetails.movesLeft < 1) {
+	console.log(gameDetails.movesLeft)
+	if (gameDetails.movesLeft < 1) {
 		return (
 			<>
 				<p>You lost the correct word was: {gameDetails.word}</p>

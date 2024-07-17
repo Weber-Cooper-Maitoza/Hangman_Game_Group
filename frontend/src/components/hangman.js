@@ -60,6 +60,9 @@ export default function Hangman() {
       //x.lettersGuessed.sort()
 			setWord(x);
 			setMoves(x.movesLeft);
+			if (x.movesLeft < 1) {
+				navigate("/lost");
+			}
 		}
 		loadBoardGame();
 	}, [navigate]);
