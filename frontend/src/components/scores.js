@@ -72,7 +72,7 @@ export default function Scores() {
 				return;
 			}
 			const scores = await respon2.json();
-			setScoreList(scores);
+			setScoreList(scores.sort((a,b) => { return a.numofguesses > b.numofguesses }));
 		}
 		loadDetails();
 	}, [navigate]);
