@@ -46,8 +46,19 @@ scoresRoutes.route("/game").post(async (req, res) => {
 		movesLeft: req.session.movesLeft
 	});
 });
+//2.5
+scoresRoutes.route("/gameDetails").post(async (req, res) => {
+	if (!req.session.username) {
+		return res.status(301).json("Username has not been set");
+	}
+	res.status(200).json({
+		word: req.session.correctWord,
+		lettersGuessed: req.session.lettersGuessed,
+		movesLeft: req.session.movesLeft
+	});
+});
 
-//3. Rout that takes a letter, checks if player has already made that guess
+//3. Route that takes a letter, checks if player has already made that guess
 //checks if the letter is in the correct word, fills where/ if it is
 //if word doesnt include * push details to the scores database
 //returns word, lettersGuessed and boolean inWord

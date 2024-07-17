@@ -30,14 +30,15 @@ export default function Scores() {
 	]);
 
 	const [gameDetails, setGameDetails] = useState({
-		word: [],
+		word: "",
 		lettersGuessed: [],
+		movesLeft: 0,
 	});
 
 	useEffect(() => {
 		async function loadDetails() {
 			console.log("hello");
-			const response = await fetch(`http://localhost:5001/game`, {
+			const response = await fetch(`http://localhost:5001/gameDetails`, {
 				method: "POST",
 				credentials: "include",
 				headers: {
@@ -82,10 +83,7 @@ export default function Scores() {
 
 	return (
 		<div>
-			<p>Good Job! Your Word Was: {gameDetails.word || ""}</p>
-			<p>
-				You got it in {gameDetails.lettersGuessed.length || ""} guesses
-			</p>
+			<WordDetails gameDetails={gameDetails}/>
 			<button onClick={() => navigate("/")}>New Game</button>
 			<h2>High Scores for length: {scoreList[0].wordlength}</h2>
 			<table>
@@ -111,5 +109,25 @@ function Score({ score, idx }) {
 			<td>{score.username}</td>
 			<td>{score.numofguesses}</td>
 		</tr>
+	);
+}
+
+function WordDetails({ gameDetails }) {
+	if (gameDetails.movesLeft || gameDetails.movesLeft < 1) {
+		return (
+			<>
+				<p>You lost the correct word was: {gameDetails.word}</p>
+				<p>Try again and next time win</p>
+			</>
+		);
+	}
+
+	return (
+		<>
+			<p>Good Job! Your Word Was: {gameDetails.word || ""}</p>
+			<p>
+				You got it in {gameDetails.lettersGuessed.length || ""} guesses
+			</p>
+		</>
 	);
 }
