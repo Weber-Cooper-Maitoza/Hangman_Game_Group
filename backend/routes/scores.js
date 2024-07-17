@@ -155,4 +155,12 @@ scoresRoutes.post("/high_scores", async (req, res) => {
 	}
 });
 
+scoresRoutes.get("/get_word", async (req, res) => {
+	if (!req.session.username) {
+		return res.status(301).json("Username has not been set!");
+	}
+
+	res.status(200).json({correctWord: req.session.correctWord});
+});
+
 module.exports = scoresRoutes;

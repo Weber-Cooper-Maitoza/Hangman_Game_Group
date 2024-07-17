@@ -3,22 +3,17 @@ import { useNavigate } from "react-router";
 
 export default function Lost() {
 	const navigate = useNavigate();
-
-	const [word, setWord] = useState({
-		word: [],
-		lettersGuessed: []
-	});
+  const [word, setWord] = useState("");
 
 	useEffect(() => {
 		async function run() {
-      const response = await fetch("http://localhost:5001/game", {
-				method: "POST",
+      const response = await fetch("http://localhost:5001/get_word", {
+				method: "GET",
 				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 				},
 			});
-			//console.log(response)
 			if (response.status === 301) {
 				window.alert(await response.json());
 				navigate("/");
@@ -29,8 +24,7 @@ export default function Lost() {
 				return;
 			}
 			let x = await response.json();
-      //x.lettersGuessed.sort()
-			setWord(x);
+			setWord(x.correctWord);
 		}
 		run();
 		return;
@@ -45,7 +39,7 @@ export default function Lost() {
 	return (
 		<div>
 			<h1>You Lost &#128532;</h1>
-			<h3>Your Word Was: {word.word}</h3>
+			<h3>Your Word Was: {word}</h3>
 			<form onSubmit={highScores}>
 				<input type="submit" value="High Scores" />
 			</form>
