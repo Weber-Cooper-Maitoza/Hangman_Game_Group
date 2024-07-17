@@ -93,8 +93,7 @@ export default function Hangman() {
 		let x = await response.json();
 		setMoves(x.movesLeft);
 		if (x.movesLeft < 1) {
-			setWinStatus("You Lost! ");
-			// navigate("/scores");
+			navigate("/lost");
 		}
 		setWord(x);
 		setGuessingLetter({ letter: "" });
