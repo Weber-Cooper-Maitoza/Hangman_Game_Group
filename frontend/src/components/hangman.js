@@ -27,8 +27,11 @@ export default function Hangman() {
 		word: [],
 		lettersGuessed: [],
 	});
+	// FIXME: remove?
 	const [inWord, setInWord] = useState();
+
 	const [moves, setMoves] = useState(11);
+	const [winStatus, setWinStatus] = useState("");
 
 	const [guessingLetter, setGuessingLetter] = useState({
 		letter: "",
@@ -136,6 +139,7 @@ export default function Hangman() {
 				<br />
 				<input type="submit" value="Guess Letter" />
 				<p>Moves left: {moves}/11</p>
+				<p>{winStatus}</p>
 			</form>
 		</div>
 	);
