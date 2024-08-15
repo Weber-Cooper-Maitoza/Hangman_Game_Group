@@ -38,6 +38,8 @@ A full functional hangman game featuring a frontend react page, a backend expres
 
 ## Screenshots
 
+![A fun picture of the board](Screenshots/React_App.jpeg)
+
 ![Playing the game and getting letters](Screenshots/image.png)
 
 ![The high scores page](Screenshots/image-1.png)
